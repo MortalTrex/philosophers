@@ -1,29 +1,31 @@
-SRCS	=	main.c
+NAME    = philo
+
+SRCS    = src/main.c\
+		  src/utils.c\
+		  src/check.c
 
 OBJ_DIR = build
 OBJS = $(SRCS:%.c=$(OBJ_DIR)/%.o)
 HDRS    = inc/philo.h
-NAME    = philo
-RM  = rm -rf
-FLAGS   = -Wall -Wextra -Werror
+FLAGS   = -Wall -Wextra -Werror -pthread
 
-all:	$(NAME)
+all:    $(NAME)
 
-$(OBJ_DIR)/%.o: %.c
+$(OBJ_DIR)/%.o: %.c $(HDRS)
 	@mkdir -p $(dir $@)
-	@$(CC) $(CFLAGS) -c $< -o $@ $(INC)
+	@$(CC) $(FLAGS) -c $< -o $@ $(INC)
 
-$(NAME):	$(OBJS)
-	cc ${FLAGS} ${OBJS} -o ${NAME}
-
-re:		clean fclean all
+$(NAME):    $(OBJS)
+	@$(CC) $(FLAGS) $(OBJS) -o $(NAME)
+	@echo "\033[0;31m...philo is ready\033[0m"
 
 clean:
-		@$(RM) $(OBJS)
-		@rm -rf $(OBJ_DIR)
+	@rm -rf $(OBJS)
+	@rm -rf $(OBJ_DIR)
 
 fclean: clean
-		@$(RM) $(OBJS) $(NAME)
+	@rm -rf $(NAME)
 
-.PHONY:
-		all clean fclean re bonus
+re:     fclean all
+
+.PHONY: all clean fclean re
