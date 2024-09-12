@@ -2,6 +2,7 @@ NAME    = philo
 
 SRCS    = src/main.c\
 		  src/utils.c\
+		  src/init.c\
 		  src/check.c
 
 OBJ_DIR = build
