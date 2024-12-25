@@ -1,14 +1,51 @@
-#include "../inc/philo.h"
+#include "philo.h"
 
-void	init_input(t_philo *philo, char **argv)
+void	init_input(t_data *data, char **argv)
 {
-	printf("init_input\n");
-	(void)philo;
-	(void)argv;
-	philo->num_of_philos = (size_t)(argv[1]);
-	philo->time_to_die = (size_t)ft_atoi(argv[2]);
-	philo->time_to_eat = (size_t)ft_atoi(argv[3]);
-	philo->time_to_sleep = (size_t)ft_atoi(argv[4]);
-	// if (argv[5])
-	// 	philo->num_times_to_eat = ft_atoi(argv[5]);
+	data->init.num_of_philos = ft_atol(argv[1]);
+	data->init.time_to_live = ft_atol(argv[2]);
+	data->init.time_to_eat = ft_atol(argv[3]);
+	data->init.time_to_sleep = ft_atol(argv[4]);
+	if (argv[5])
+	{
+		data->init.meals_eaten = ft_atol(argv[5]);
+		data->central.is_meals_eaten = true;
+	}
+}
+
+int	create_mutex(t_data *data)
+{
+	pthread_mutex_init(&data->central.death_lock, NULL);
+	pthread_mutex_init(&data->central.eat_lock, NULL);
+	pthread_mutex_init(&data->central.write_lock, NULL);
+	return (SUCCESS);
+}
+
+int create_list(t_data *data)
+{
+	t_philo	*new;
+	int i;
+
+	i = 0;
+	data->p_manag.size = data->init.num_of_philos;
+	while(i < data->init.num_of_philos)
+	{
+		new = new_philo(data, i);
+		if (!new)
+			return (ERROR);
+		printf("ID[%d]\n", new->id);
+		if (!add_philo(&data->p_manag, new))
+			return (ERROR);
+		i++;
+	}
+	return (SUCCESS);
+}
+
+int initializing(t_data *data, char **argv)
+{
+	init_input(data, argv);
+	create_mutex(data);
+	create_list(data);
+	
+	return (SUCCESS);
 }

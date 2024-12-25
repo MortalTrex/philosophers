@@ -1,17 +1,24 @@
-#include "../inc/philo.h"
+#include "philo.h"
+
+// void print_(t_data *data)
+// {
+//   t_philo *current = data->p_manag.head;
+//   while(current)
+//   {
+//     // printf("ID [%d]\n", current->id);
+//     current = current->next;
+//   }
+// }
 
 int	main(int argc, char **argv)
 {
-    t_data data;
+	t_data		data;
 
-	if (verify_args(argc, argv) == false)
+	ft_bzero(&data, sizeof(t_data));
+	if (parsing(argc, argv) == ERROR)
 		return (EXIT_FAILURE);
-    ft_bzero(&data, sizeof(t_data));
-    init_input(data.philos, argv);
-    // printf("num_of_philos: %ld\n", data.philos->num_of_philos);
-    // printf("time_to_die: %ld\n", data.philos->time_to_die);
-    // printf("time_to_eat: %ld\n", data.philos->time_to_eat);
-    // printf("time_to_sleep: %ld\n", data.philos->time_to_sleep);
-    // printf("num_times_to_eat: %ld\n", data.philos->num_times_to_eat);
+  if (initializing(&data, argv) == ERROR)
+    return (EXIT_FAILURE);
+  // print_(&data);
 	return (EXIT_SUCCESS);
 }
