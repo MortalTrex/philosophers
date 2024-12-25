@@ -3,7 +3,8 @@ NAME    = philo
 SRCS    = src/main.c\
 		  src/utils.c\
 		  src/init.c\
-		  src/check.c
+		src/check.c\
+		  libft/ft_bzero.c\
 
 OBJ_DIR = build
 OBJS = $(SRCS:%.c=$(OBJ_DIR)/%.o)

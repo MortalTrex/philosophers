@@ -21,19 +21,40 @@ bool	ft_args_are_numbers(char *argv)
 	return (true);
 }
 
+bool	antilonglong(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] == '0' || str[i] == '+' || str[i] == '-')
+		i++;
+	str += i;
+	i = 0;
+	while (str[i])
+	{
+		if (i >= 10)
+			return (true);
+		i++;
+	}
+	return (false);
+}
+
 bool	verify_args(int argc, char **argv)
 {
 	int	i;
 
 	i = 1;
 	if (argc < 5 || argc > 6)
-		return (write(1, "Error : Wrong number Arguments", 31), false);
+	{
+		write(1, "Error : Wrong number of arguments\n", 35);
+		return (false);
+	}
 	while (i < argc)
 	{
+		if (antilonglong(argv[i]) == true)
+			return (write(1, "Error : Argument too long", 26), false);
 		if (ft_args_are_numbers(argv[i]) == false)
 			return (write(1, "Error : Arguments must be numbers", 34), false);
-		if (ft_args_are_correct(ft_atoi(argv[i])) == false)
-			return (false);
 		i++;
 	}
 	return (true);
