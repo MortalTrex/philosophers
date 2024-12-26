@@ -1,5 +1,8 @@
 #include "philo.h"
 
+void g_print_lst(t_data *data);
+
+
 void	init_input(t_data *data, char **argv)
 {
 	data->init.num_of_philos = ft_atol(argv[1]);
@@ -27,15 +30,15 @@ int create_list(t_data *data)
 	int i;
 
 	i = 0;
-	data->p_manag.size = data->init.num_of_philos;
 	while(i < data->init.num_of_philos)
 	{
 		new = new_philo(data, i);
 		if (!new)
 			return (ERROR);
-		printf("ID[%d]\n", new->id);
-		if (!add_philo(&data->p_manag, new))
+		if (add_philo(data, new) == ERROR)
+		{
 			return (ERROR);
+		}
 		i++;
 	}
 	return (SUCCESS);

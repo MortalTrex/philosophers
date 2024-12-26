@@ -1,17 +1,17 @@
 #include "philo.h"
 
-int		add_philo(t_philo_manag *lst, t_philo *new)
+int		add_philo(t_data *data, t_philo *new)
 {
 	t_philo *current;
 
-	current = lst->head;
+	current = data->p_manag.head;
 	if (!current)
 	{
-		current = new;
+		data->p_manag.head = new;
 	}
 	else
 	{
-		while(current)
+		while(current->next)
 			current = current->next;
 		current->next = new;
 		new->prev = current;
@@ -39,3 +39,4 @@ t_philo *new_philo(t_data *data, int i)
 	new->prev = NULL;
 	return (new);
 }
+

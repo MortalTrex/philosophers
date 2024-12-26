@@ -1,16 +1,18 @@
 NAME    = philo
 
 SRCS    = src/main.c\
-		  src/utils.c\
-		  src/init.c\
+		src/utils.c\
+		src/init.c\
 		src/parsing.c\
 		src/init_utils.c\
-		  libft/ft_bzero.c
+		libft/ft_bzero.c \
+		src/memory.c \
+		src/monitor.c
 
 OBJ_DIR = build
 OBJS = $(SRCS:%.c=$(OBJ_DIR)/%.o)
 HDRS    = inc/philo.h
-FLAGS   = -Wall -Wextra -Werror -I./inc -pthread
+FLAGS   = -Wall -Wextra -Werror -I./inc -pthread -g3
 
 all:    $(NAME)
 

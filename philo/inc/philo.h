@@ -20,20 +20,19 @@
 ////////////////////////////STRUCTS//////////////////////////////
 typedef struct s_philo
 {
-	pthread_t		tid;
-	int				id;
+	pthread_t			tid;
+	int					id;
 
-	size_t			num_of_philos;
-	size_t			last_meal;
-	size_t			time_to_live;
-	size_t			time_to_eat;
-	size_t			time_to_sleep;
-	size_t			meals_eaten;
+	size_t				last_meal;
+	size_t				time_to_live;
+	size_t				time_to_eat;
+	size_t				time_to_sleep;
+	size_t				meals_eaten;
 
-	struct s_sync	*sync;
-	struct s_philo	*next;
-	struct s_philo	*prev;
-}					t_philo;
+	struct s_sync		*sync;
+	struct s_philo		*next;
+	struct s_philo		*prev;
+}						t_philo;
 
 typedef struct s_sync
 {
@@ -49,19 +48,19 @@ typedef struct s_sync
 
 typedef	struct s_philo_manage
 {
-	t_philo		*head;
-	t_philo		*current;
-	size_t		size;
-}				t_philo_manag;
+	t_philo				*head;
+	t_philo				*current;
+	size_t				size;
+}						t_philo_manag;
 
 typedef struct s_init
 {
-	int			num_of_philos;
-	int			time_to_live;
-	int			time_to_eat;
-	int			time_to_sleep;
-	int			meals_eaten;
-}					t_init;
+	int					num_of_philos;
+	int					time_to_live;
+	int					time_to_eat;
+	int					time_to_sleep;
+	int					meals_eaten;
+}						t_init;
 
 typedef struct s_data
 {
@@ -74,7 +73,7 @@ typedef struct s_data
 
 ////////////////////////////CHECKS//////////////////////////////
 
-int				parsing(int argc, char **argv);
+int					parsing(int argc, char **argv);
 bool				ft_args_are_numbers(char *argv);
 
 ////////////////////////////UTILS//////////////////////////////
@@ -87,8 +86,9 @@ int					ft_isdigit(int c);
 void 				init_input(t_data *data, char **argv);
 int 				initializing(t_data *data, char **argv);
 
-int					add_philo(t_philo_manag *lst, t_philo *new);
+int					add_philo(t_data *data, t_philo *new);
 t_philo 			*new_philo(t_data *data, int i);
+void				lst_clear_philo(t_data *data);
 
 
 
