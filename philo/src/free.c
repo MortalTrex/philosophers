@@ -8,9 +8,6 @@ void	ft_free_all(t_data *data)
 	exit(EXIT_SUCCESS);
 }
 
-
-
-
 void	lst_clear_philo(t_data *data)
 {
 	t_philo *current;

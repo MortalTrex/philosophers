@@ -4,10 +4,9 @@ SRCS    = src/main.c\
 		src/utils.c\
 		src/init.c\
 		src/parsing.c\
-		src/init_utils.c\
 		libft/ft_bzero.c \
-		src/memory.c \
-		src/monitor.c
+		src/routine.c\
+		src/free.c
 
 OBJ_DIR = build
 OBJS = $(SRCS:%.c=$(OBJ_DIR)/%.o)

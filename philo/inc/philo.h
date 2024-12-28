@@ -24,11 +24,16 @@ typedef struct s_philo
 	int					id;
 
 	size_t				last_meal;
+	size_t				meals_eaten;
 	size_t				time_to_live;
 	size_t				time_to_eat;
 	size_t				time_to_sleep;
-	size_t				meals_eaten;
 
+	pthread_mutex_t		last_meal_mutex;
+	pthread_mutex_t		meals_eaten_mutex;
+	pthread_mutex_t		fork_mutex;
+	pthread_mutex_t		*fork_left;
+	pthread_mutex_t		*fork_right;
 	struct s_sync		*sync;
 	struct s_philo		*next;
 	struct s_philo		*prev;
@@ -36,6 +41,7 @@ typedef struct s_philo
 
 typedef struct s_sync
 {
+	pthread_mutex_t		start;
 	pthread_mutex_t		death_lock;
 	pthread_mutex_t		eat_lock;
 	pthread_mutex_t		write_lock;
@@ -76,6 +82,10 @@ typedef struct s_data
 int					parsing(int argc, char **argv);
 bool				ft_args_are_numbers(char *argv);
 
+////////////////////////////ROUTINE//////////////////////////////
+
+void				*routine(void *arg);
+
 ////////////////////////////UTILS//////////////////////////////
 int					ft_atoi(const char *str);
 void				ft_bzero(void *s, size_t n);
@@ -86,9 +96,11 @@ int					ft_isdigit(int c);
 void 				init_input(t_data *data, char **argv);
 int 				initializing(t_data *data, char **argv);
 
-int					add_philo(t_data *data, t_philo *new);
+void				add_philo(t_data *data, t_philo *new);
 t_philo 			*new_philo(t_data *data, int i);
 void				lst_clear_philo(t_data *data);
+
+void 				g_print_lst(t_data *data);
 
 
 

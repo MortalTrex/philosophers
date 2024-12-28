@@ -1,5 +1,42 @@
 #include "../inc/philo.h"
 
+void	add_philo(t_data *data, t_philo *new)
+{
+	t_philo *current;
+
+	current = data->p_manag.head;
+	if (!current)
+		data->p_manag.head = new;
+	else
+	{
+		while(current->next)
+			current = current->next;
+		current->next = new;
+		new->prev = current;
+		new->next = NULL;
+	}
+}
+
+t_philo *new_philo(t_data *data, int i)
+{
+	t_philo *new;
+
+	new = malloc(sizeof(t_philo));
+	if (!new)
+		return (NULL);
+	new->id = i + 1;
+	new->last_meal = 0;
+	new->time_to_live = data->init.time_to_live;
+	new->time_to_eat = data->init.time_to_eat;
+	new->time_to_sleep = data->init.time_to_sleep;
+	if (data->central.is_meals_eaten == true)
+		new->meals_eaten = data->init.meals_eaten;
+	new->sync = &data->central;
+	new->next = NULL;
+	new->prev = NULL;
+	return (new);
+}
+
 int	ft_isdigit(int c)
 {
 	if (c < '0' || c > '9')
@@ -28,29 +65,24 @@ long	ft_atol(const char *str)
 	return (result * sign);
 }
 
-int	ft_atoi(const char *str)
+void g_print_lst(t_data *data)
 {
-	int			i;
-	int			sign;
-	long int	res;
+	t_philo *current;
 
-	res = 0;
-	i = 0;
-	sign = 1;
-	while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
-		i++;
-	while (str[i] == '+' || str[i] == '-')
+	printf("main %p\n", data->p_manag.head);
+	current = data->p_manag.head;
+	while (current)
 	{
-		if (str[i] == '-')
-			sign = -1;
-		if (str[i + 1] == '+' || str[i + 1] == '-')
-			return (0);
-		i++;
+		printf("============================================\n");
+		printf("id: %d\n", current->id);
+		printf("last_meal: %zu\n", current->last_meal);
+		printf("time_to_live: %zu\n", current->time_to_live);
+		printf("time_to_eat: %zu\n", current->time_to_eat);
+		printf("time_to_sleep: %zu\n", current->time_to_sleep);
+		printf("meals_eaten: %zu\n", current->meals_eaten);
+		printf("sync: %p\n", current->sync);
+		printf("next: %p\n", current->next);
+		printf("prev: %p\n", current->prev);
+		current = current->next;
 	}
-	while (str[i] >= '0' && str[i] <= '9')
-	{
-		res = res * 10 + (str[i] - '0');
-		i++;
-	}
-	return ((res * sign) / 10);
 }
