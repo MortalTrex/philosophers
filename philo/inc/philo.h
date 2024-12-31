@@ -25,7 +25,7 @@ typedef struct s_philo
 
 	size_t				last_meal;
 	size_t				meals_eaten;
-	size_t				time_to_live;
+	size_t				time_to_die;
 	size_t				time_to_eat;
 	size_t				time_to_sleep;
 
@@ -50,6 +50,7 @@ typedef struct s_sync
 	bool				is_all_eaten;
 	bool 				is_meals_eaten;
 	bool				stop_routine;
+	size_t				start_time;
 }						t_sync;
 
 typedef	struct s_philo_manage
@@ -91,6 +92,9 @@ int					ft_atoi(const char *str);
 void				ft_bzero(void *s, size_t n);
 long				ft_atol(const char *str);
 int					ft_isdigit(int c);
+void 				print_message(char *str, t_philo *philo, t_sync *sync);
+int					get_time(void);
+
 
 ////////////////////////////INIT//////////////////////////////
 void 				init_input(t_data *data, char **argv);

@@ -8,6 +8,7 @@ void	init_input(t_data *data, char **argv)
 	data->init.time_to_live = ft_atol(argv[2]);
 	data->init.time_to_eat = ft_atol(argv[3]);
 	data->init.time_to_sleep = ft_atol(argv[4]);
+	data->central.start_time = get_time();
 	if (argv[5])
 	{
 		data->init.meals_eaten = ft_atol(argv[5]);

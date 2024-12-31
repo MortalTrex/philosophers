@@ -1,5 +1,32 @@
 #include "../inc/philo.h"
 
+
+int ft_strcmp(const char *s1, const char *s2)
+{
+	while (*s1 && *s2 && *s1 == *s2)
+	{
+		s1++;
+		s2++;
+	}
+	return (*(unsigned char *)s1 - *(unsigned char *)s2);
+}	
+
+int	get_time(void)
+{
+	struct timeval	tv;
+
+	gettimeofday(&tv, NULL);
+	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
+}
+
+void	print_message(char *str, t_philo *philo, t_sync *sync)
+{
+	int	time;
+
+	time = get_time() - sync->start_time;
+	printf("%d %d %s\n", time, philo->id, str);
+}
+
 void	add_philo(t_data *data, t_philo *new)
 {
 	t_philo *current;
@@ -26,7 +53,7 @@ t_philo *new_philo(t_data *data, int i)
 		return (NULL);
 	new->id = i + 1;
 	new->last_meal = 0;
-	new->time_to_live = data->init.time_to_live;
+	new->time_to_die = data->init.time_to_live;
 	new->time_to_eat = data->init.time_to_eat;
 	new->time_to_sleep = data->init.time_to_sleep;
 	if (data->central.is_meals_eaten == true)
@@ -76,7 +103,7 @@ void g_print_lst(t_data *data)
 		printf("============================================\n");
 		printf("id: %d\n", current->id);
 		printf("last_meal: %zu\n", current->last_meal);
-		printf("time_to_live: %zu\n", current->time_to_live);
+		printf("time_to_live: %zu\n", current->time_to_die);
 		printf("time_to_eat: %zu\n", current->time_to_eat);
 		printf("time_to_sleep: %zu\n", current->time_to_sleep);
 		printf("meals_eaten: %zu\n", current->meals_eaten);

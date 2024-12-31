@@ -6,7 +6,6 @@ int	main(int argc, char **argv)
 
 	memset(&data, 0, sizeof(t_data));
 	// data = (t_data) {};
-	// PARSING FINALISE
 	if (parsing(argc, argv) == ERROR)
 		return (EXIT_FAILURE);
 	if (initializing(&data, argv) == ERROR)
