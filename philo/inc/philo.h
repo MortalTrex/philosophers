@@ -31,7 +31,6 @@ typedef struct s_philo
 
 	pthread_mutex_t		last_meal_mutex;
 	pthread_mutex_t		meals_eaten_mutex;
-	pthread_mutex_t		fork_mutex;
 	pthread_mutex_t		*fork_left;
 	pthread_mutex_t		*fork_right;
 	struct s_sync		*sync;
@@ -94,6 +93,7 @@ long				ft_atol(const char *str);
 int					ft_isdigit(int c);
 void 				print_message(char *str, t_philo *philo, t_sync *sync);
 int					get_time(void);
+void				ft_free_all(t_data *data);
 
 
 ////////////////////////////INIT//////////////////////////////

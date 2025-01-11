@@ -11,7 +11,7 @@ SRCS    = src/main.c\
 OBJ_DIR = build
 OBJS = $(SRCS:%.c=$(OBJ_DIR)/%.o)
 HDRS    = inc/philo.h
-FLAGS   = -Wall -Wextra -Werror -I./inc -pthread -g3
+FLAGS   = -Wall -Wextra -Werror -I./inc -pthread -g3 -fsanitize=address
 
 all:    $(NAME)
 
