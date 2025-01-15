@@ -11,12 +11,13 @@ int ft_strcmp(const char *s1, const char *s2)
 	return (*(unsigned char *)s1 - *(unsigned char *)s2);
 }	
 
-int	get_time(void)
+uint64_t	get_time(void)
 {
 	struct timeval	tv;
 
 	gettimeofday(&tv, NULL);
-	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
+	return (((uint64_t)(current_time.tv_sec) * 1000)
+		+ ((uint64_t)(current_time.tv_usec) / 1000));
 }
 
 void	print_message(char *str, t_philo *philo, t_sync *sync)

@@ -1,58 +1,53 @@
 #include "philo.h"
 
-void	init_input(t_data *data, char **argv)
+static void	init_input(t_data *data, char **argv, int argc)
 {
-	data->init.num_of_philos = ft_atol(argv[1]);
-	data->init.time_to_live = ft_atol(argv[2]);
-	data->init.time_to_eat = ft_atol(argv[3]);
-	data->init.time_to_sleep = ft_atol(argv[4]);
+	data->num_of_philos = ft_atol(argv[1]);
+	data->time_to_die = ft_atol(argv[2]);
+	data->time_to_eat = ft_atol(argv[3]);
+	data->time_to_sleep = ft_atol(argv[4]);
 	data->central.start_time = get_time();
-	if (argv[5])
+	if (argc == 6)
 	{
 		data->init.meals_eaten = ft_atol(argv[5]);
-		data->central.is_meals_eaten = true;
+		data->central.is_meals_eaten_max = true;
 	}
 }
 
-int	create_mutex(t_data *data)
+static void init_data_mutex(t_data *data)
 {
-	pthread_mutex_init(&data->central.death_lock, NULL);
-	pthread_mutex_init(&data->central.eat_lock, NULL);
-	pthread_mutex_init(&data->central.write_lock, NULL);
-	return (SUCCESS);
+	if (pthread_mutex_init(&data->sync_mutex, NULL) != SUCCESS)
+		exit_error(data, "Sync_mutex creation failed.");
+	if (pthread_mutex_init(&data->print_mutex, NULL) != SUCCESS)
+		exit_error(data, "Print_mutex creation failed.");
 }
 
-int create_list(t_data *data)
+static void init_philo(t_data *data)
 {
-	t_philo	*new;
-	int i;
+	int i = 0;
 
-	i = 0;
-	while(i < data->init.num_of_philos)
+	data->philos = malloc(sizeof(t_philo) * data->nb_philo);
+	if (!data->philos)
+		exit_error(data, "Philos array creation failed.");
+	while (i < data->nb_philo)
 	{
-		new = new_philo(data, i);
-		if (!new)
-			return (ERROR);
-		//pthread_mutex_init(&new->fork_mutex, NULL);
-		pthread_mutex_init(&new->meals_eaten_mutex, NULL);
-		pthread_mutex_init(&new->last_meal_mutex, NULL);
-		add_philo(data, new);
-		new = new->next;
+		if (i == data->nb_philo - 1)
+			data->philos[i].left_fork = &data->philos[0].right_fork;
+		else
+			data->philos[i].left_fork = &data->philos[i + 1].right_fork;
+		if (pthread_mutex_init(&data->philos[i].right_fork, NULL) != SUCCESS)
+			exit_error(data, "Philos thread creation failed.");
+		data->philos[i].meals_eaten = 0;
+		data->philos[i].data = data;
+		data->philos[i].is_dead = false;
 		i++;
 	}
-	return (SUCCESS);
 }
 
-
-int initializing(t_data *data, char **argv)
+int initializing(t_data *data, char **argv, int argc)
 {
-	//Insere les valurs initiales dans les structures
-	init_input(data, argv);
-	//Initialise les mutex
-	if (create_mutex(data) == ERROR)
-		return (ERROR);
-	//Initialise les philos
-	if (create_list(data) == ERROR)
-		return (ERROR);
+	init_input(data, argv, argc);
+	init_data_mutex(data);
+	init_philo(data);
 	return (SUCCESS);
 }
