@@ -8,6 +8,6 @@ void *routine(void *arg)
 	if (!philo)
 		return (NULL);
 	if (philo->id % 2)
-		print_message("is thinking", philo, philo->sync);
+		print_message("is thinking", philo);
 	return (NULL);
 }

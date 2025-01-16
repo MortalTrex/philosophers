@@ -41,7 +41,7 @@ int	antilonglong(char *str)
 	return (SUCCESS);
 }
 
-int	parsing(int argc, char **argv)
+int	check_args(int argc, char **argv)
 {
 	int	i;
 	long number;

@@ -3,15 +3,14 @@ NAME    = philo
 SRCS    = src/main.c\
 		src/utils.c\
 		src/init.c\
-		src/parsing.c\
-		libft/ft_bzero.c \
+		src/check_args.c\
 		src/routine.c\
 		src/free.c
 
 OBJ_DIR = build
 OBJS = $(SRCS:%.c=$(OBJ_DIR)/%.o)
 HDRS    = inc/philo.h
-FLAGS   = -Wall -Wextra -Werror -I./inc -pthread -g3 -fsanitize=address
+FLAGS   = -Wall -Wextra -Werror -I./inc -pthread -g3
 
 all:    $(NAME)
 
