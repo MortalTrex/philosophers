@@ -27,7 +27,7 @@ int	main(int argc, char **argv)
 		return (EXIT_FAILURE);
 	initializing(&data, argv, argc);
 	launch_philo(&data);
-	//print_tab(&data);
 	ft_free_all(&data);
+	//print_tab(&data);
 	return (EXIT_SUCCESS);
 }

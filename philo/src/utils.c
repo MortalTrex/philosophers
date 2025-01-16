@@ -24,8 +24,10 @@ void	print_message(char *str, t_philo *philo)
 {
 	int	time;
 
+	pthread_mutex_lock(&philo->data->print_mutex);
 	time = get_time() - philo->data->start_time;
 	printf("%d %d %s\n", time, philo->id, str);
+	pthread_mutex_unlock(&philo->data->print_mutex);
 }
 
 int	ft_isdigit(int c)
