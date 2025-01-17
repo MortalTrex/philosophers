@@ -31,6 +31,5 @@ int	main(int argc, char **argv)
 	initializing(&data, argv, argc);
 	launch_philo(&data);
 	ft_free_all(&data);
-	//print_tab(&data);
 	return (EXIT_SUCCESS);
 }
