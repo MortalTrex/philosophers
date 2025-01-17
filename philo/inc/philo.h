@@ -56,6 +56,9 @@ typedef struct s_data
 int					check_args(int argc, char **argv);
 bool				ft_args_are_numbers(char *argv);
 
+////////////////////////////MONITOR//////////////////////////////
+void	*monitor(void *arg);
+
 ////////////////////////////ROUTINE//////////////////////////////
 
 void				*routine(void *arg);

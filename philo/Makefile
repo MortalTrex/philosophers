@@ -5,6 +5,7 @@ SRCS    = src/main.c\
 		src/init.c\
 		src/check_args.c\
 		src/routine.c\
+		src/monitor.c\
 		src/free.c
 
 OBJ_DIR = build

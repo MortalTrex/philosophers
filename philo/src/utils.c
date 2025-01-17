@@ -73,7 +73,7 @@ void print_tab(t_data *data)
 		printf("\033[1;31mis_dead: %d\n", data->philos[i].is_dead);
 		printf("\033[1;36mlast_meal: %zu\n", data->philos[i].last_meal);
 		printf("\033[1;35mmeals_eaten: %d\n", data->philos[i].meals_eaten);
-		printf("\033[0m"); // Reset color
+		printf("\033[0m");
 		printf("////////////////////////\n");
 	}
 }

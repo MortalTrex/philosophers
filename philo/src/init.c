@@ -9,6 +9,8 @@ static void	init_input(t_data *data, char **argv, int argc)
 	data->start_time = get_time();
 	if (argc == 6)
 		data->meals_eaten_max = ft_atol(argv[5]);
+	if (argc == 5)
+		data->meals_eaten_max = -1;
 }
 
 static void init_data_mutex(t_data *data)
