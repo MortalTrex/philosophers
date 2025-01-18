@@ -43,8 +43,9 @@ void	*routine(void *arg)
 	if (philo->id % 2 == 0)
 		usleep(500);
 	int i = 0;
-	while (philo->is_dead == false)
+	while (!philo->data->thread_ended && !philo->is_dead)
 	{
+		/*
 		printf("////////////////////////\n");
 		printf("\033[1;32mid: %d\n", philo->id);
 		printf("\033[1;31mis_dead: %d\n", philo->is_dead);
@@ -52,10 +53,10 @@ void	*routine(void *arg)
 		printf("\033[1;35mmeals_eaten: %d\n", philo->meals_eaten);
 		printf("\033[0m");
 		printf("////////////////////////\n");
+		*/
 		ft_think(philo);
 		ft_eat(philo);
 		ft_sleep(philo);
-		printf("i ... %d\n", i);
 		i++;
 	}
 	return (NULL);
