@@ -67,6 +67,9 @@ void	*monitor(void *arg)
 	philo = (t_philo *)arg;
 	while (1)
 		if (verif_dead(philo) == true || verif_everyone_ate(philo) == true)
+		{
+			printf("monitor ended\n");
 			break ;
+		}
 	return (arg);
 }

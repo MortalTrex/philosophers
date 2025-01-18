@@ -2,18 +2,18 @@
 
 void launch_philo(t_data *data)
 {
-	pthread_t	observer;
+	pthread_t	t_monitor;
 	int i;
 
 	i = 0;
-	pthread_create(&observer, NULL, &monitor, data->philos);
+	pthread_create(&t_monitor, NULL, &monitor, data->philos);
 	while(i < data->num_of_philos)
 	{
 		pthread_create(&data->philos[i].philo_thread, NULL, routine, &data->philos[i]);
 		i++;
 	}
 	i = 0;
-	pthread_join(observer, NULL);
+	pthread_join(t_monitor, NULL);
 	while(i < data->num_of_philos)
 	{
 		pthread_join(data->philos[i].philo_thread, NULL);

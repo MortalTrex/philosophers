@@ -43,7 +43,7 @@ void	*routine(void *arg)
 	if (philo->id % 2 == 0)
 		usleep(500);
 	int i = 0;
-	while (philo->is_dead == false || i < 10)
+	while (philo->is_dead == false)
 	{
 		printf("////////////////////////\n");
 		printf("\033[1;32mid: %d\n", philo->id);
@@ -55,6 +55,7 @@ void	*routine(void *arg)
 		ft_think(philo);
 		ft_eat(philo);
 		ft_sleep(philo);
+		printf("i ... %d\n", i);
 		i++;
 	}
 	return (NULL);
