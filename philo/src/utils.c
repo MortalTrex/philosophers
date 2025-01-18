@@ -58,22 +58,30 @@ long	ft_atol(const char *str)
 	return (result * sign);
 }
 
-void print_tab(t_data *data)
+long	timestamp(t_data *data)
 {
-	if (!data)
-		return ;
-	int i;
-
-	for (i = 0; i < data->num_of_philos; i++)
-	{
-		printf("////////////////////////\n");
-		printf("\033[1;32mid: %d\n", data->philos[i].id);
-		printf("\033[1;33mleft_fork: %p\n", data->philos[i].left_fork);
-		printf("\033[1;33mright_fork: %p\n", &data->philos[i].right_fork);
-		printf("\033[1;31mis_dead: %d\n", data->philos[i].is_dead);
-		printf("\033[1;36mlast_meal: %zu\n", data->philos[i].last_meal);
-		printf("\033[1;35mmeals_eaten: %d\n", data->philos[i].meals_eaten);
-		printf("\033[0m");
-		printf("////////////////////////\n");
-	}
+	return (get_time() - data->start_time);
 }
+
+int	ft_usleep(t_philo *philo, int timer)
+{
+	long	actual;
+	long	end;
+
+	actual = timestamp(philo->data) * 1000;
+	end = actual + timer * 1000;
+	while (actual <= end)
+	{
+		if (end - actual <= 1000)
+		{
+			usleep(end - actual);
+			return (0);
+		}
+		if (philosopher_dead(philo, philo->data->time_to_die))
+			return (1);
+		usleep(1000);
+		actual = timestamp(philo->data) * 1000;
+	}
+	return (0);
+}
+

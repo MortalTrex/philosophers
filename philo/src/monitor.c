@@ -52,7 +52,7 @@ bool	verif_everyone_ate(t_philo *philos)
 	{
 		pthread_mutex_lock(&philos[0].data->sync_mutex);
 		philos[i].is_dead = true;
-		philos[i].data->thread_ended = true;
+		philos[0].data->thread_ended = true;
 		pthread_mutex_unlock(&philos[0].data->sync_mutex);
 		return (true);
 	}
@@ -68,7 +68,6 @@ void	*monitor(void *arg)
 	while (1)
 		if (verif_dead(philo) == true || verif_everyone_ate(philo) == true)
 		{
-			//printf("monitor ended\n");
 			break ;
 		}
 	return (arg);

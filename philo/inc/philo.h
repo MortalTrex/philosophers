@@ -57,6 +57,9 @@ int					check_args(int argc, char **argv);
 bool				ft_args_are_numbers(char *argv);
 
 ////////////////////////////MONITOR//////////////////////////////
+bool	philosopher_dead(t_philo *philo, int time_to_die);
+bool	verif_dead(t_philo *philos);
+bool	verif_everyone_ate(t_philo *philos);
 void	*monitor(void *arg);
 
 ////////////////////////////ROUTINE//////////////////////////////
@@ -68,6 +71,7 @@ long				ft_atol(const char *str);
 int					ft_isdigit(int c);
 void				print_message(char *str, t_philo *philo);
 uint64_t			get_time(void);
+int					ft_usleep(t_philo *philo, int timer);
 
 ////////////////////////////INIT//////////////////////////////
 void				initializing(t_data *data, char **argv, int argc);
