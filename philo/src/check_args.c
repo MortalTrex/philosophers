@@ -7,7 +7,7 @@ int	ft_args_are_correct(int nb)
 	return (SUCCESS);
 }
 
-bool ft_args_are_numbers(char *argv)
+bool	ft_args_are_numbers(char *argv)
 {
 	int	i;
 
@@ -43,8 +43,8 @@ int	antilonglong(char *str)
 
 int	check_args(int argc, char **argv)
 {
-	int	i;
-	long number;
+	int		i;
+	long	number;
 
 	i = 1;
 	if (argc < 5 || argc > 6)

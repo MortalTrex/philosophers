@@ -35,7 +35,7 @@ void	ft_sleep(t_philo *philo)
 
 void	*routine(void *arg)
 {
-	t_philo *philo;
+	t_philo	*philo;
 
 	philo = (t_philo *)arg;
 	if (!philo)
@@ -44,22 +44,14 @@ void	*routine(void *arg)
 		ft_usleep(philo, 1);
 	while (!philo->data->thread_ended && !philo->is_dead)
 	{
-		/*
-		printf("////////////////////////\n");
-		printf("\033[1;32mid: %d\n", philo->id);
-		printf("\033[1;31mis_dead: %d\n", philo->is_dead);
-		printf("\033[1;36mlast_meal: %zu\n", philo->last_meal);
-		printf("\033[1;35mmeals_eaten: %d\n", philo->meals_eaten);
-		printf("\033[0m");
-		printf("////////////////////////\n");
-		*/
 		if (philo->data->thread_ended || philo->is_dead)
 			break ;
 		ft_think(philo);
 		if (philo->data->thread_ended || philo->is_dead)
 			break ;
 		ft_eat(philo);
-		if (philo->data->thread_ended || philo->is_dead || philo->data->num_of_philos == 1)
+		if (philo->data->thread_ended || philo->is_dead
+			|| philo->data->num_of_philos == 1)
 			break ;
 		if (philo->data->num_of_philos != 1)
 			ft_sleep(philo);

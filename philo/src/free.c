@@ -1,8 +1,8 @@
 #include "philo.h"
 
-int ft_strlen(char *str)
+int	ft_strlen(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i])
@@ -10,7 +10,7 @@ int ft_strlen(char *str)
 	return (i);
 }
 
-void exit_error(t_data *data, char *msg)
+void	exit_error(t_data *data, char *msg)
 {
 	write(2, "Error: ", 7);
 	write(2, msg, ft_strlen(msg));
@@ -20,9 +20,7 @@ void exit_error(t_data *data, char *msg)
 
 void	ft_free_all(t_data *data)
 {
-	//pthread_join
 	free(data->philos);
 	pthread_mutex_destroy(&data->sync_mutex);
 	pthread_mutex_destroy(&data->print_mutex);
 }
-

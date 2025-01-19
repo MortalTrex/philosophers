@@ -1,7 +1,6 @@
 #include "../inc/philo.h"
 
-
-int ft_strcmp(const char *s1, const char *s2)
+int	ft_strcmp(const char *s1, const char *s2)
 {
 	while (*s1 && *s2 && *s1 == *s2)
 	{
@@ -9,15 +8,14 @@ int ft_strcmp(const char *s1, const char *s2)
 		s2++;
 	}
 	return (*(unsigned char *)s1 - *(unsigned char *)s2);
-}	
+}
 
 uint64_t	get_time(void)
 {
 	struct timeval	tv;
 
 	gettimeofday(&tv, NULL);
-	return (((uint64_t)(tv.tv_sec) * 1000)
-		+ ((uint64_t)(tv.tv_usec) / 1000));
+	return (((uint64_t)(tv.tv_sec) * 1000) + ((uint64_t)(tv.tv_usec) / 1000));
 }
 
 void	print_message(char *str, t_philo *philo)
@@ -84,4 +82,3 @@ int	ft_usleep(t_philo *philo, int timer)
 	}
 	return (0);
 }
-

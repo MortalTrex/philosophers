@@ -7,7 +7,6 @@ bool	philosopher_dead(t_philo *philo, int time_to_die)
 	return (false);
 }
 
-
 bool	verif_dead(t_philo *philos)
 {
 	int	i;
@@ -38,7 +37,6 @@ bool	verif_everyone_ate(t_philo *philos)
 	finished_eating = 0;
 	if (philos[0].data->meals_eaten_max == -1)
 		return (false);
-	// On compte le nombre de philosophes qui ont fini de manger
 	while (i < philos[0].data->num_of_philos)
 	{
 		pthread_mutex_lock(&philos[0].data->sync_mutex);
@@ -47,7 +45,6 @@ bool	verif_everyone_ate(t_philo *philos)
 		pthread_mutex_unlock(&philos[0].data->sync_mutex);
 		i++;
 	}
-	// Si tous les philosophes ont fini de manger alors on termine la simulation
 	if (finished_eating == philos[0].data->num_of_philos)
 	{
 		pthread_mutex_lock(&philos[0].data->sync_mutex);
@@ -59,7 +56,6 @@ bool	verif_everyone_ate(t_philo *philos)
 	return (false);
 }
 
-
 void	*monitor(void *arg)
 {
 	t_philo	*philo;
@@ -67,8 +63,6 @@ void	*monitor(void *arg)
 	philo = (t_philo *)arg;
 	while (1)
 		if (verif_dead(philo) == true || verif_everyone_ate(philo) == true)
-		{
 			break ;
-		}
 	return (arg);
 }

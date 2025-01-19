@@ -13,7 +13,7 @@ static void	init_input(t_data *data, char **argv, int argc)
 		data->meals_eaten_max = -1;
 }
 
-static void init_data_mutex(t_data *data)
+static void	init_data_mutex(t_data *data)
 {
 	if (pthread_mutex_init(&data->sync_mutex, NULL) != SUCCESS)
 		exit_error(data, "Sync_mutex creation failed.");
@@ -21,10 +21,10 @@ static void init_data_mutex(t_data *data)
 		exit_error(data, "Print_mutex creation failed.");
 }
 
-static void init_philo(t_data *data)
+static void	init_philo(t_data *data)
 {
-	int i;
-	
+	int	i;
+
 	i = 0;
 	data->philos = malloc(sizeof(t_philo) * data->num_of_philos);
 	if (!data->philos)
@@ -47,7 +47,7 @@ static void init_philo(t_data *data)
 	}
 }
 
-void initializing(t_data *data, char **argv, int argc)
+void	initializing(t_data *data, char **argv, int argc)
 {
 	init_input(data, argv, argc);
 	init_data_mutex(data);
