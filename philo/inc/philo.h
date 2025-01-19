@@ -71,7 +71,8 @@ long				ft_atol(const char *str);
 int					ft_isdigit(int c);
 void				print_message(char *str, t_philo *philo);
 uint64_t			get_time(void);
-int					ft_usleep(t_philo *philo, int timer);
+// int					ft_usleep(t_philo *philo, int timer);
+int					ft_usleep(size_t time);
 
 ////////////////////////////INIT//////////////////////////////
 void				initializing(t_data *data, char **argv, int argc);

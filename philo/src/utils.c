@@ -1,6 +1,7 @@
 #include "../inc/philo.h"
 
-int	ft_strcmp(const char *s1, const char *s2)
+
+int ft_strcmp(const char *s1, const char *s2)
 {
 	while (*s1 && *s2 && *s1 == *s2)
 	{
@@ -8,14 +9,15 @@ int	ft_strcmp(const char *s1, const char *s2)
 		s2++;
 	}
 	return (*(unsigned char *)s1 - *(unsigned char *)s2);
-}
+}	
 
 uint64_t	get_time(void)
 {
 	struct timeval	tv;
 
 	gettimeofday(&tv, NULL);
-	return (((uint64_t)(tv.tv_sec) * 1000) + ((uint64_t)(tv.tv_usec) / 1000));
+	return (((uint64_t)(tv.tv_sec) * 1000)
+		+ ((uint64_t)(tv.tv_usec) / 1000));
 }
 
 void	print_message(char *str, t_philo *philo)
@@ -56,29 +58,39 @@ long	ft_atol(const char *str)
 	return (result * sign);
 }
 
-long	timestamp(t_data *data)
-{
-	return (get_time() - data->start_time);
-}
+// long	timestamp(t_data *data)
+// {
+// 	return (get_time() - data->start_time);
+// }
 
-int	ft_usleep(t_philo *philo, int timer)
-{
-	long	actual;
-	long	end;
+// int	ft_usleep(t_philo *philo, int timer)
+// {
+// 	long	actual;
+// 	long	end;
 
-	actual = timestamp(philo->data) * 1000;
-	end = actual + timer * 1000;
-	while (actual <= end)
-	{
-		if (end - actual <= 1000)
-		{
-			usleep(end - actual);
-			return (0);
-		}
-		if (philosopher_dead(philo, philo->data->time_to_die))
-			return (1);
-		usleep(1000);
-		actual = timestamp(philo->data) * 1000;
-	}
+// 	actual = timestamp(philo->data) * 1000;
+// 	end = actual + timer * 1000;
+// 	while (actual <= end)
+// 	{
+// 		if (end - actual <= 1000)
+// 		{
+// 			usleep(end - actual);
+// 			return (0);
+// 		}
+// 		if (philosopher_dead(philo, philo->data->time_to_die))
+// 			return (1);
+// 		usleep(1000);
+// 		actual = timestamp(philo->data) * 1000;
+// 	}
+// 	return (0);
+// }
+
+int	ft_usleep(size_t time)
+{
+	size_t	start;
+
+	start = get_time();
+	while ((get_time() - start) < time)
+		usleep(500);
 	return (0);
 }
