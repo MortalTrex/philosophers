@@ -33,16 +33,13 @@ static void	init_philo(t_data *data)
 	{
 		data->philos[i].id = i + 1;
 		data->philos[i].last_meal = data->start_time;
-		data->philos[i].fork_id = i;
 		if (i == data->num_of_philos - 1)
 			data->philos[i].left_fork = &data->philos[0].right_fork;
 		else
 			data->philos[i].left_fork = &data->philos[i + 1].right_fork;
 		if (pthread_mutex_init(&data->philos[i].right_fork, NULL) != SUCCESS)
 			exit_error(data, "Philos thread creation failed.");
-		data->philos[i].meals_eaten = 0;
 		data->philos[i].data = data;
-		data->philos[i].is_dead = false;
 		i++;
 	}
 }

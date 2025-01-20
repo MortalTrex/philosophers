@@ -32,6 +32,14 @@ void	ft_sleep(t_philo *philo)
 	print_message("is sleeping", philo);
 	ft_usleep(philo->data->time_to_sleep);
 }
+bool	verif_isdead(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->data->sync_mutex);
+	if (philo->data->is_dead == true)
+		return (pthread_mutex_unlock(&philo->data->sync_mutex), true);
+	pthread_mutex_unlock(&philo->data->sync_mutex);
+	return (false);
+}
 
 void	*routine(void *arg)
 {
@@ -42,16 +50,15 @@ void	*routine(void *arg)
 		return (NULL);
 	if (philo->id % 2 == 0)
 		ft_usleep(1);
-	while (!philo->data->thread_ended && !philo->is_dead)
+	while (verif_isdead(philo) == false)
 	{
-		if (philo->data->thread_ended || philo->is_dead)
+		if (philo->data->is_dead)
 			break ;
 		ft_eat(philo);
-		if (philo->data->thread_ended || philo->is_dead
-			|| philo->data->num_of_philos == 1)
+		if (philo->data->is_dead || philo->data->num_of_philos == 1)
 			break ;
 		ft_sleep(philo);
-		if (philo->data->thread_ended || philo->is_dead)
+		if (philo->data->is_dead)
 			break ;
 		ft_think(philo);
 	}

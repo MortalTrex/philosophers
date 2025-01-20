@@ -25,9 +25,7 @@ typedef struct s_philo
 	pthread_t		philo_thread;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	right_fork;
-	int				fork_id;
 	int				meals_eaten;
-	bool			is_dead;
 	struct s_data	*data;
 }					t_philo;
 
@@ -38,16 +36,13 @@ typedef struct s_data
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				meals_eaten_max;
-	bool			philo_all_full;
 	uint64_t		start_time;
 	t_philo			*philos;
 	pthread_t		monitor_thread;
 	pthread_mutex_t	sync_mutex;
 	pthread_mutex_t	print_mutex;
-	bool			thread_ended;
-	bool			print_allowed;
+	bool			is_dead;
 }					t_data;
-
 
 ////////////////////////////INCLUDES//////////////////////////////
 
@@ -57,10 +52,9 @@ int					check_args(int argc, char **argv);
 bool				ft_args_are_numbers(char *argv);
 
 ////////////////////////////MONITOR//////////////////////////////
-bool	philosopher_dead(t_philo *philo, int time_to_die);
-bool	verif_dead(t_philo *philos);
-bool	verif_everyone_ate(t_philo *philos);
-void	*monitor(void *arg);
+void				verif_death(t_philo *philos);
+void				verif_everyone_ate(t_philo *philos);
+void				*monitor(void *arg);
 
 ////////////////////////////ROUTINE//////////////////////////////
 

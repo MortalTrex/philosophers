@@ -1,5 +1,4 @@
-#include "../inc/philo.h"
-
+#include "philo.h"
 
 int ft_strcmp(const char *s1, const char *s2)
 {
@@ -24,6 +23,13 @@ void	print_message(char *str, t_philo *philo)
 {
 	int	time;
 
+	pthread_mutex_lock(&philo->data->sync_mutex);
+	if (philo->data->is_dead == true)
+	{	
+		pthread_mutex_unlock(&philo->data->sync_mutex);
+		return ;
+	}
+	pthread_mutex_unlock(&philo->data->sync_mutex);
 	pthread_mutex_lock(&philo->data->print_mutex);
 	time = get_time() - philo->data->start_time;
 	printf("%d %d %s\n", time, philo->id, str);
