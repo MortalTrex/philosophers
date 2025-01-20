@@ -40,6 +40,7 @@ static void	init_philo(t_data *data)
 		if (pthread_mutex_init(&data->philos[i].right_fork, NULL) != SUCCESS)
 			exit_error(data, "Philos thread creation failed.");
 		data->philos[i].data = data;
+		data->philos[i].meals_eaten = 0;
 		i++;
 	}
 }

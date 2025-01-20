@@ -40,6 +40,30 @@ bool	verif_isdead(t_philo *philo)
 	pthread_mutex_unlock(&philo->data->sync_mutex);
 	return (false);
 }
+void	begin_think(t_philo *philo)
+{
+	if (philo->data->num_of_philos % 2 == 0)
+	{
+		if (philo->id % 2 == 0)
+		{
+			print_message("is thinking", philo);
+			usleep(philo->data->num_of_philos * 1000);
+		}
+	}
+	else
+	{
+		if (philo->id == philo->data->num_of_philos)
+		{
+			print_message("is thinking", philo);
+			usleep(philo->data->num_of_philos * 1000 * 2);
+		}
+		else if (philo->id % 2 == 0)
+		{
+			print_message("is thinking", philo);
+			usleep(philo->data->num_of_philos * 1000);
+		}
+	}
+}
 
 void	*routine(void *arg)
 {
@@ -48,19 +72,23 @@ void	*routine(void *arg)
 	philo = (t_philo *)arg;
 	if (!philo)
 		return (NULL);
+	begin_think(philo);
 	if (philo->id % 2 == 0)
 		ft_usleep(1);
-	while (verif_isdead(philo) == false)
+	while (1)
 	{
-		if (philo->data->is_dead)
-			break ;
+		// printf("\033[0;31mnum of philos: %d\n\033[0m", philo->data->num_of_philos);
+		// printf("\033[0;31mphilo id: %d\n\033[0m", philo->id);
+		// printf("\033[0;31mmeal eaten: %d\n\033[0m", philo->meals_eaten);
+		// if (philo->data->is_dead)
+		// 	break ;
 		ft_eat(philo);
-		if (philo->data->is_dead || philo->data->num_of_philos == 1)
-			break ;
+		// if (philo->data->is_dead || philo->data->num_of_philos == 1)
+		// 	break ;
 		ft_sleep(philo);
-		if (philo->data->is_dead)
-			break ;
 		ft_think(philo);
+		// if (philo->data->is_dead)
+		// 	break ;
 	}
 	return (NULL);
 }

@@ -40,6 +40,8 @@ void	verif_everyone_ate(t_philo *philos)
 		pthread_mutex_lock(&philos[0].data->sync_mutex);
 		philos[0].data->is_dead = true;
 		pthread_mutex_unlock(&philos[0].data->sync_mutex);
+		//print_message("All philos ate enough", philos);
+		//return ;
 	}
 }
 
@@ -52,8 +54,9 @@ void	*monitor(void *arg)
 	{
 		verif_death(philo);
 		verif_everyone_ate(philo);
-		if (philo[0].data->is_dead)
-			break ;
+		// if (philo[0].data->is_dead == true)
+		// 	return (NULL);
+
 	}
 	return (arg);
 }
