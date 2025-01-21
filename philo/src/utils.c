@@ -6,7 +6,7 @@
 /*   By: rbalazs <rbalazs@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 12:40:06 by rbalazs           #+#    #+#             */
-/*   Updated: 2025/01/21 12:42:49 by rbalazs          ###   ########.fr       */
+/*   Updated: 2025/01/21 13:26:03 by rbalazs          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ void	print_message(char *str, t_philo *philo)
 {
 	int	time;
 
-	pthread_mutex_lock(&philo->data->sync_mutex);
+	pthread_mutex_lock(&philo->data->global_mutex);
 	time = get_time() - philo->data->start_time;
 	printf("%d %d %s\n", time, philo->id, str);
-	pthread_mutex_unlock(&philo->data->sync_mutex);
+	pthread_mutex_unlock(&philo->data->global_mutex);
 }
 
 int	ft_isdigit(int c)

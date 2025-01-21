@@ -6,7 +6,7 @@
 /*   By: rbalazs <rbalazs@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 12:40:16 by rbalazs           #+#    #+#             */
-/*   Updated: 2025/01/21 12:40:17 by rbalazs          ###   ########.fr       */
+/*   Updated: 2025/01/21 13:26:03 by rbalazs          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,9 @@ static bool	init_philo(t_data *data)
 bool	initializing(t_data *data, char **argv, int argc)
 {
 	init_input(data, argv, argc);
-	if (pthread_mutex_init(&data->sync_mutex, NULL) != 0)
+	if (pthread_mutex_init(&data->global_mutex, NULL) != 0)
 	{
-		printf("Sync_mutex creation failed.\n");
+		printf("global_mutex creation failed.\n");
 		return (false);
 	}
 	if (init_philo(data) == false)

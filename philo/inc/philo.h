@@ -6,7 +6,7 @@
 /*   By: rbalazs <rbalazs@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 12:44:18 by rbalazs           #+#    #+#             */
-/*   Updated: 2025/01/21 12:44:19 by rbalazs          ###   ########.fr       */
+/*   Updated: 2025/01/21 13:36:26 by rbalazs          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ typedef struct s_data
 	int				meals_eaten_max;
 	uint64_t		start_time;
 	t_philo			*philos;
-	pthread_mutex_t	sync_mutex;
+	pthread_mutex_t	global_mutex;
 	bool			is_dead;
 }					t_data;
 
@@ -56,12 +56,13 @@ bool				check_args(int argc, char **argv);
 bool				ft_args_are_numbers(char *argv);
 
 ////////////////////////////MONITOR//////////////////////////////
-void				verif_death(t_philo *philos);
-void				verif_everyone_ate(t_philo *philos);
+bool				check_and_print_death(t_philo *philos);
+bool				verif_everyone_ate(t_philo *philos);
 void				*monitor(void *arg);
 
 ////////////////////////////ROUTINE//////////////////////////////
 
+bool				verif_isdead(t_philo *philo);
 void				*routine(void *arg);
 
 ////////////////////////////UTILS//////////////////////////////

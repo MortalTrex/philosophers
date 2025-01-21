@@ -6,36 +6,47 @@
 /*   By: rbalazs <rbalazs@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 12:40:00 by rbalazs           #+#    #+#             */
-/*   Updated: 2025/01/21 12:43:41 by rbalazs          ###   ########.fr       */
+/*   Updated: 2025/01/21 13:45:45 by rbalazs          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+bool	verif_isdead(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->data->global_mutex);
+	if (philo->data->is_dead == true)
+		return (pthread_mutex_unlock(&philo->data->global_mutex), true);
+	pthread_mutex_unlock(&philo->data->global_mutex);
+	return (false);
+}
 void	ft_eat(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->right_fork);
+	if (verif_isdead(philo) == true)
+	{
+		pthread_mutex_unlock(&philo->right_fork);
+		return ;
+	}
 	print_message("has taken a fork", philo);
 	pthread_mutex_lock(philo->left_fork);
+	if (verif_isdead(philo) == true)
+	{
+		pthread_mutex_unlock(&philo->right_fork);
+		pthread_mutex_unlock(philo->left_fork);
+		return ;
+	}
 	print_message("has taken a fork", philo);
 	print_message("is eating", philo);
-	pthread_mutex_lock(&philo->data->sync_mutex);
+	pthread_mutex_lock(&philo->data->global_mutex);
 	philo->last_meal = get_time();
 	philo->meals_eaten++;
-	pthread_mutex_unlock(&philo->data->sync_mutex);
+	pthread_mutex_unlock(&philo->data->global_mutex);
 	ft_usleep(philo->data->time_to_eat);
 	pthread_mutex_unlock(philo->left_fork);
 	pthread_mutex_unlock(&philo->right_fork);
 }
 
-bool	verif_isdead(t_philo *philo)
-{
-	pthread_mutex_lock(&philo->data->sync_mutex);
-	if (philo->data->is_dead == true)
-		return (pthread_mutex_unlock(&philo->data->sync_mutex), true);
-	pthread_mutex_unlock(&philo->data->sync_mutex);
-	return (false);
-}
 
 void	begin_think(t_philo *philo)
 {
@@ -75,14 +86,14 @@ void	*routine(void *arg)
 		ft_usleep(1);
 	while (verif_isdead(philo) == false)
 	{
-		if (philo->data->is_dead)
+		if (verif_isdead(philo) == true)
 			break ;
 		ft_eat(philo);
-		if (philo->data->is_dead)
-			break ;
+		// if (verif_isdead(philo) == true)
+		// 	break ;
 		print_message("is sleeping", philo);
 		ft_usleep(philo->data->time_to_sleep);
-		if (philo->data->is_dead)
+		if (verif_isdead(philo) == true)
 			break ;
 		print_message("is thinking", philo);
 	}

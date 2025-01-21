@@ -6,7 +6,7 @@
 /*   By: rbalazs <rbalazs@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 12:39:33 by rbalazs           #+#    #+#             */
-/*   Updated: 2025/01/21 12:39:34 by rbalazs          ###   ########.fr       */
+/*   Updated: 2025/01/21 13:26:03 by rbalazs          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,20 @@ void	ft_free_all(t_data *data)
 		free(data->philos);
 		data->philos = NULL;
 	}
-	pthread_mutex_destroy(&data->sync_mutex);
+	pthread_mutex_destroy(&data->global_mutex);
 }
 
-void	launch_philo(t_data *data)
+bool	launch_philo(t_data *data)
 {
 	pthread_t	t_monitor;
 	int			i;
 
 	i = 0;
-	pthread_create(&t_monitor, NULL, &monitor, data->philos);
+	if (pthread_create(&t_monitor, NULL, &monitor, data->philos) == -1)
+	{
+		printf("Monitor thread creation failed.\n");
+		return (false);
+	}
 	while (i < data->num_of_philos)
 	{
 		pthread_create(&data->philos[i].philo_thread, NULL, routine,
@@ -42,6 +46,7 @@ void	launch_philo(t_data *data)
 		pthread_join(data->philos[i].philo_thread, NULL);
 		i++;
 	}
+	return (true);
 }
 
 int	main(int argc, char **argv)
@@ -55,7 +60,11 @@ int	main(int argc, char **argv)
 		ft_free_all(&data);
 		return (EXIT_FAILURE);
 	}
-	launch_philo(&data);
+	if (launch_philo(&data) == false)
+	{
+		ft_free_all(&data);
+		return (EXIT_FAILURE);
+	}
 	ft_free_all(&data);
 	return (EXIT_SUCCESS);
 }
