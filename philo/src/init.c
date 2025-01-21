@@ -6,7 +6,7 @@
 /*   By: rbalazs <rbalazs@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 12:40:16 by rbalazs           #+#    #+#             */
-/*   Updated: 2025/01/21 13:26:03 by rbalazs          ###   ########.fr       */
+/*   Updated: 2025/01/21 19:49:52 by rbalazs          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ static void	init_input(t_data *data, char **argv, int argc)
 		data->meals_eaten_max = ft_atol(argv[5]);
 	if (argc == 5)
 		data->meals_eaten_max = -1;
+	data->is_dead = false;
+	data->finished_eating = false;
 }
 
 static bool	init_philo(t_data *data)
@@ -48,7 +50,6 @@ static bool	init_philo(t_data *data)
 		}
 		data->philos[i].data = data;
 		data->philos[i].meals_eaten = 0;
-		data->philos[i].data->is_dead = false;
 		i++;
 	}
 	return (true);

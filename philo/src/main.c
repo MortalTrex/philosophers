@@ -6,7 +6,7 @@
 /*   By: rbalazs <rbalazs@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 12:39:33 by rbalazs           #+#    #+#             */
-/*   Updated: 2025/01/21 13:26:03 by rbalazs          ###   ########.fr       */
+/*   Updated: 2025/01/21 19:35:48 by rbalazs          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,24 @@ void	ft_free_all(t_data *data)
 	pthread_mutex_destroy(&data->global_mutex);
 }
 
+void	onephilo(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->right_fork);
+	print_message("has taken a fork", philo);
+	ft_usleep(philo->data->time_to_die);
+	pthread_mutex_unlock(&philo->right_fork);
+	print_message("died", philo);
+	return ;
+}
+
 bool	launch_philo(t_data *data)
 {
 	pthread_t	t_monitor;
 	int			i;
 
 	i = 0;
+	if (data->num_of_philos == 1)
+		return (onephilo(data->philos), true);
 	if (pthread_create(&t_monitor, NULL, &monitor, data->philos) == -1)
 	{
 		printf("Monitor thread creation failed.\n");

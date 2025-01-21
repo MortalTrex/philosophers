@@ -6,7 +6,7 @@
 /*   By: rbalazs <rbalazs@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 12:40:00 by rbalazs           #+#    #+#             */
-/*   Updated: 2025/01/21 13:45:45 by rbalazs          ###   ########.fr       */
+/*   Updated: 2025/01/21 20:19:32 by rbalazs          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ bool	verif_isdead(t_philo *philo)
 	pthread_mutex_unlock(&philo->data->global_mutex);
 	return (false);
 }
+
 void	ft_eat(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->right_fork);
@@ -47,7 +48,6 @@ void	ft_eat(t_philo *philo)
 	pthread_mutex_unlock(&philo->right_fork);
 }
 
-
 void	begin_think(t_philo *philo)
 {
 	if (philo->id % 2 == 0)
@@ -63,15 +63,6 @@ void	begin_think(t_philo *philo)
 	}
 }
 
-void	onephilo(t_philo *philo)
-{
-	pthread_mutex_lock(&philo->right_fork);
-	print_message("has taken a fork", philo);
-	ft_usleep(philo->data->time_to_die);
-	pthread_mutex_unlock(&philo->right_fork);
-	return ;
-}
-
 void	*routine(void *arg)
 {
 	t_philo	*philo;
@@ -79,8 +70,6 @@ void	*routine(void *arg)
 	philo = (t_philo *)arg;
 	if (!philo)
 		return (NULL);
-	if (philo->data->num_of_philos == 1)
-		return (onephilo(philo), NULL);
 	begin_think(philo);
 	if (philo->id % 2 == 0)
 		ft_usleep(1);
@@ -89,8 +78,9 @@ void	*routine(void *arg)
 		if (verif_isdead(philo) == true)
 			break ;
 		ft_eat(philo);
-		// if (verif_isdead(philo) == true)
-		// 	break ;
+		if (verif_isdead(philo) == true
+			&& philo->data->finished_eating == false)
+			break ;
 		print_message("is sleeping", philo);
 		ft_usleep(philo->data->time_to_sleep);
 		if (verif_isdead(philo) == true)

@@ -6,7 +6,7 @@
 /*   By: rbalazs <rbalazs@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 12:44:18 by rbalazs           #+#    #+#             */
-/*   Updated: 2025/01/21 13:36:26 by rbalazs          ###   ########.fr       */
+/*   Updated: 2025/01/21 20:19:08 by rbalazs          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct s_data
 	t_philo			*philos;
 	pthread_mutex_t	global_mutex;
 	bool			is_dead;
+	bool			finished_eating;
 }					t_data;
 
 ////////////////////////////INCLUDES//////////////////////////////
