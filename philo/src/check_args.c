@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check_args.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rbalazs <rbalazs@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/21 12:40:11 by rbalazs           #+#    #+#             */
+/*   Updated: 2025/01/21 12:40:12 by rbalazs          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
-int	ft_args_are_correct(int nb)
+bool	ft_args_are_correct(int nb)
 {
-	if (nb < 1 || nb > PHILO_MAX)
-		return (write(1, "Error : Argument out of range", 30), ERROR);
-	return (SUCCESS);
+	if (nb < 1 || nb > 200)
+		return (write(1, "Error : Argument out of range", 30), false);
+	return (true);
 }
 
 bool	ft_args_are_numbers(char *argv)
@@ -13,17 +25,17 @@ bool	ft_args_are_numbers(char *argv)
 
 	i = 1;
 	if (argv[0] == '-')
-		return (ERROR);
+		return (false);
 	while (argv[i])
 	{
 		if (argv[i] < '0' || argv[i] > '9')
-			return (ERROR);
+			return (false);
 		i++;
 	}
-	return (SUCCESS);
+	return (true);
 }
 
-int	antilonglong(char *str)
+bool	antilonglong(char *str)
 {
 	int	i;
 
@@ -35,13 +47,13 @@ int	antilonglong(char *str)
 	while (str[i])
 	{
 		if (i >= 10)
-			return (ERROR);
+			return (false);
 		i++;
 	}
-	return (SUCCESS);
+	return (true);
 }
 
-int	check_args(int argc, char **argv)
+bool	check_args(int argc, char **argv)
 {
 	int		i;
 	long	number;
@@ -50,22 +62,22 @@ int	check_args(int argc, char **argv)
 	if (argc < 5 || argc > 6)
 	{
 		write(1, "Error : Wrong number of arguments\n", 35);
-		return (ERROR);
+		return (false);
 	}
 	while (i < argc)
 	{
 		if (!argv[i][0])
-			return (write(2, "Error : Argument is NULL", 25), ERROR);
-		if (antilonglong(argv[i]) == ERROR)
-			return (write(2, "Error : Argument too long", 26), ERROR);
-		if (ft_args_are_numbers(argv[i]) == ERROR)
-			return (write(2, "Error : Arguments must be numbers", 34), ERROR);
+			return (write(2, "Error : Argument is NULL", 25), false);
+		if (antilonglong(argv[i]) == false)
+			return (write(2, "Error : Argument too long", 26), false);
+		if (ft_args_are_numbers(argv[i]) == false)
+			return (write(2, "Error : Arguments must be numbers", 34), false);
 		number = ft_atol(argv[i]);
 		if (number == 0 && i == 1)
-			return (write(2, "Error : Philo is 0", 19), ERROR);
+			return (write(2, "Error : Philo is 0", 19), false);
 		if (number < -2147483648 || number > 2147483647)
-			return (write(2, "Error : Argument out of range", 30), ERROR);
+			return (write(2, "Error : Argument out of range", 30), false);
 		i++;
 	}
-	return (SUCCESS);
+	return (true);
 }

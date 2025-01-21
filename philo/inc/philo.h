@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rbalazs <rbalazs@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/21 12:44:18 by rbalazs           #+#    #+#             */
+/*   Updated: 2025/01/21 12:44:19 by rbalazs          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PHILO_H
 # define PHILO_H
 
@@ -10,12 +22,6 @@
 # include <string.h>
 # include <sys/time.h>
 # include <unistd.h>
-
-# define PHILO_MAX 200
-# define TIME_MAX 600
-
-# define SUCCESS 0
-# define ERROR 1
 
 ////////////////////////////STRUCTS//////////////////////////////
 typedef struct s_philo
@@ -38,9 +44,7 @@ typedef struct s_data
 	int				meals_eaten_max;
 	uint64_t		start_time;
 	t_philo			*philos;
-	pthread_t		monitor_thread;
 	pthread_mutex_t	sync_mutex;
-	pthread_mutex_t	print_mutex;
 	bool			is_dead;
 }					t_data;
 
@@ -48,7 +52,7 @@ typedef struct s_data
 
 ////////////////////////////CHECKS//////////////////////////////
 
-int					check_args(int argc, char **argv);
+bool				check_args(int argc, char **argv);
 bool				ft_args_are_numbers(char *argv);
 
 ////////////////////////////MONITOR//////////////////////////////
@@ -65,16 +69,14 @@ long				ft_atol(const char *str);
 int					ft_isdigit(int c);
 void				print_message(char *str, t_philo *philo);
 uint64_t			get_time(void);
-// int					ft_usleep(t_philo *philo, int timer);
 int					ft_usleep(size_t time);
 
 ////////////////////////////INIT//////////////////////////////
-void				initializing(t_data *data, char **argv, int argc);
+bool				initializing(t_data *data, char **argv, int argc);
 void				lst_clear_philo(t_data *data);
 void				print_tab(t_data *data);
 
 ////////////////////////////FREE//////////////////////////////
-void				exit_error(t_data *data, char *msg);
 void				ft_free_all(t_data *data);
 
 #endif

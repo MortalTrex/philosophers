@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   monitor.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rbalazs <rbalazs@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/21 12:39:38 by rbalazs           #+#    #+#             */
+/*   Updated: 2025/01/21 12:40:59 by rbalazs          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 void	verif_death(t_philo *philos)
@@ -7,7 +19,8 @@ void	verif_death(t_philo *philos)
 	i = 0;
 	while (i < philos[0].data->num_of_philos)
 	{
-		if (get_time() - philos->last_meal > (uint64_t)philos[i].data->time_to_die)
+		if (get_time()
+			- philos->last_meal > (uint64_t)philos[i].data->time_to_die)
 		{
 			print_message("died", &philos[i]);
 			pthread_mutex_lock(&philos[i].data->sync_mutex);
@@ -40,8 +53,6 @@ void	verif_everyone_ate(t_philo *philos)
 		pthread_mutex_lock(&philos[0].data->sync_mutex);
 		philos[0].data->is_dead = true;
 		pthread_mutex_unlock(&philos[0].data->sync_mutex);
-		//print_message("All philos ate enough", philos);
-		//return ;
 	}
 }
 
@@ -54,9 +65,8 @@ void	*monitor(void *arg)
 	{
 		verif_death(philo);
 		verif_everyone_ate(philo);
-		// if (philo[0].data->is_dead == true)
-		// 	return (NULL);
-
+		if (philo->data->is_dead == true)
+			break ;
 	}
 	return (arg);
 }

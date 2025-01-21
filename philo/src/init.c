@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rbalazs <rbalazs@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/21 12:40:16 by rbalazs           #+#    #+#             */
+/*   Updated: 2025/01/21 12:40:17 by rbalazs          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 static void	init_input(t_data *data, char **argv, int argc)
@@ -13,22 +25,14 @@ static void	init_input(t_data *data, char **argv, int argc)
 		data->meals_eaten_max = -1;
 }
 
-static void	init_data_mutex(t_data *data)
-{
-	if (pthread_mutex_init(&data->sync_mutex, NULL) != SUCCESS)
-		exit_error(data, "Sync_mutex creation failed.");
-	if (pthread_mutex_init(&data->print_mutex, NULL) != SUCCESS)
-		exit_error(data, "Print_mutex creation failed.");
-}
-
-static void	init_philo(t_data *data)
+static bool	init_philo(t_data *data)
 {
 	int	i;
 
 	i = 0;
 	data->philos = malloc(sizeof(t_philo) * data->num_of_philos);
 	if (!data->philos)
-		exit_error(data, "Philos array creation failed.");
+		return (printf("Philos array creation failed.\n"), false);
 	while (i < data->num_of_philos)
 	{
 		data->philos[i].id = i + 1;
@@ -37,17 +41,28 @@ static void	init_philo(t_data *data)
 			data->philos[i].left_fork = &data->philos[0].right_fork;
 		else
 			data->philos[i].left_fork = &data->philos[i + 1].right_fork;
-		if (pthread_mutex_init(&data->philos[i].right_fork, NULL) != SUCCESS)
-			exit_error(data, "Philos thread creation failed.");
+		if (pthread_mutex_init(&data->philos[i].right_fork, NULL) != 0)
+		{
+			printf("Philos[%d] right_fork creation failed.\n", i);
+			return (false);
+		}
 		data->philos[i].data = data;
 		data->philos[i].meals_eaten = 0;
+		data->philos[i].data->is_dead = false;
 		i++;
 	}
+	return (true);
 }
 
-void	initializing(t_data *data, char **argv, int argc)
+bool	initializing(t_data *data, char **argv, int argc)
 {
 	init_input(data, argv, argc);
-	init_data_mutex(data);
-	init_philo(data);
+	if (pthread_mutex_init(&data->sync_mutex, NULL) != 0)
+	{
+		printf("Sync_mutex creation failed.\n");
+		return (false);
+	}
+	if (init_philo(data) == false)
+		return (false);
+	return (true);
 }

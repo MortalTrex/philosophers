@@ -5,8 +5,7 @@ SRCS    = src/main.c\
 		src/init.c\
 		src/check_args.c\
 		src/routine.c\
-		src/monitor.c\
-		src/free.c
+		src/monitor.c
 
 OBJ_DIR = build
 OBJS = $(SRCS:%.c=$(OBJ_DIR)/%.o)
